@@ -5,6 +5,7 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { getUser } = require("../middleware/finders");
+const auth = require('../middleware/auth')
 
 const router = express.Router();
 
@@ -35,9 +36,12 @@ router.patch("/", async (req, res, next) => {
         JSON.stringify(user),
         process.env.JWT_SECRET_KEY
       );
-      res.status(201).json({ jwt: access_token }, user);
+
+
+      res.status(201).json({ jwt: access_token , user });
+
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: error.message }); 
     }
   } else {
     res
@@ -45,7 +49,6 @@ router.patch("/", async (req, res, next) => {
       .json({ message: "Email and password combination do not match" });
   }
 });
-
 // REGISTER a user
 router.post("/", async (req, res, next) => {
   const { name, email, contact, password } = req.body;
@@ -78,7 +81,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // UPDATE a user
-router.put("/:id", getUser, async (req, res, next) => {
+router.put("/:id",[auth,getUser] , async (req, res, next) => {
   const { name, contact, password, avatar, about } = req.body;
   if (name) res.user.name = name;
   if (contact) res.user.contact = contact;
