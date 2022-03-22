@@ -29,7 +29,7 @@ app.use(cors());
 // API routes
 app.get("/", (req, res, next) => {
   res.send({
-    message: "Welcome to the Social media API",
+    message: "Welcome to the JJ Social media API",
     user_routes: {
       user_register: {
         method: "POST",
