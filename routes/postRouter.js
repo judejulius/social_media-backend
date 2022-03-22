@@ -52,7 +52,7 @@ router.post("/", auth, async (req, res, next) => {
 });
 
 // UPDATE a post
-router.put("/:id", [auth, getPost], async (req, res, next) => {
+router.put("/:id",getPost, async (req, res, next) => {
   if (req.user.name)
     res
       .status(400)
@@ -72,7 +72,7 @@ router.put("/:id", [auth, getPost], async (req, res, next) => {
 });
 
 // DELETE a post
-router.delete("/:id", [auth, getPost], async (req, res, next) => {
+router.delete("/:id",getPost, async (req, res, next) => {
   if (req.user._id !== res.post.author)
     res
       .status(400)
