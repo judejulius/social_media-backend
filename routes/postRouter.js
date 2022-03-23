@@ -53,10 +53,6 @@ router.post("/", auth, async (req, res, next) => {
 
 // UPDATE a post
 router.put("/:id",getPost, async (req, res, next) => {
-  if (req.user.name)
-    res
-      .status(400)
-      .json({ message: "You do not have the permission to update this post" });
   const { title, body, img, avatar } = req.body;
   if (title) res.post.title = title;
   if (body) res.post.body = body;
@@ -72,11 +68,7 @@ router.put("/:id",getPost, async (req, res, next) => {
 });
 
 // DELETE a post
-router.delete("/:id",[auth,getPost], async (req, res, next) => {
-  if (req.user._id !== res.post.author)
-    res
-      .status(400)
-      .json({ message: "You do not have the permission to delete this post" });
+router.delete("/:id",getPost, async (req, res, next) => {
   try {
     await res.post.remove();
     res.json({ message: "Deleted post" });
