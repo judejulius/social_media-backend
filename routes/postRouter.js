@@ -73,10 +73,6 @@ router.put("/:id",getPost, async (req, res, next) => {
 
 // DELETE a post
 router.delete("/:id",getPost, async (req, res, next) => {
-  if (req.user._id !== res.post.author)
-    res
-      .status(400)
-      .json({ message: "You do not have the permission to delete this post" });
   try {
     await res.post.remove();
     res.json({ message: "Deleted post" });
